@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Move to Flowise project directory
-cd dev/ai-automation/flowise && npm run dev &
+cd dev/ai-automation/flowise && PORT=3030 npx flowise start &
 flowise_pid=$!
 
 # Trap SIGINT (Ctrl+C) to kill Flowise process cleanly

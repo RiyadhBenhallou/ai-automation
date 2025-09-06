@@ -1,30 +1,19 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -euo pipefail
+cd ~/dev/ai-automation/n8n
 
-cd dev/ai-automation/n8n && npx n8n start &
-n8n_pid=$!
+# start both in the same process group (background but attached)
+npx n8n start &  N8N_PID=$!
+ngrok http --url=subdomain.ngrok-free.app 5678 >/dev/null & NGROK_PID=$!
 
-# Start ngrok (background)
-ngrok http --url=subdomain.ngrok-free.app 5678 > /dev/null &
-ngrok_pid=$!
-
-# Cleanup function
-cleanup() {
-    echo -e "\nStopping..."
-    # Kill n8n if it's still running
-    if kill -0 $n8n_pid 2>/dev/null; then
-        kill $n8n_pid
-        wait $n8n_pid 2>/dev/null
-    fi
-    # Kill ngrok if it's still running
-    if kill -0 $ngrok_pid 2>/dev/null; then
-        kill $ngrok_pid
-        wait $ngrok_pid 2>/dev/null
-    fi
-    exit 0
+cleanup(){
+  echo
+  # kill the whole group (-PID) so no orphaned children
+  kill -TERM -$$ 2>/dev/null || true   # $$ = this script’s PGID
+  wait                                   # one wait is enough
+  exit 0
 }
+trap cleanup INT
 
-# Trap Ctrl+C (SIGINT)
-trap cleanup SIGINT
-
-# Wait for n8n to finish
-wait $n8n_pid
+# wait for either child to finish
+wait

@@ -12,6 +12,6 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
-    "n8n": "^1.106.3"
+    "n8n": "^1.109.2"
   }
 }

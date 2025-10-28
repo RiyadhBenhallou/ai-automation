@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
-cd ~/dev/ai-automation/n8n
+cd path/to/n8n
 
 # start both in the same process group (background but attached)
 npx n8n start &  N8N_PID=$!

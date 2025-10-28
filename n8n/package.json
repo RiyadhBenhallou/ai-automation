@@ -5,13 +5,13 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "n8n start --tunnel"
+    "dev": "n8n start"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
-    "n8n": "^1.109.2"
+    "n8n": "^1.117.2"
   }
 }
